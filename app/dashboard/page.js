@@ -1,10 +1,5 @@
 import moment from 'moment'
-import {
-  TrashIcon,
-  ClipboardIcon,
-  ArrowTopRightOnSquareIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import clientPromise from 'lib/mongodb'
 import Link from 'next/link'
 export default async function Dashboard() {
