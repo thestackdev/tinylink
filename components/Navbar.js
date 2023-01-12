@@ -5,7 +5,7 @@ import { LinkIcon, Bars3Icon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { PATH_NAMES } from 'helpers/paths'
 
-export default function () {
+export default function Navbar() {
   const [toggleOpened, setToggleOpened] = useState(false)
 
   return (
