@@ -1,11 +1,24 @@
 import moment from 'moment'
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
+import {
+  ArrowTopRightOnSquareIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline'
 import clientPromise from 'lib/mongodb'
 import Link from 'next/link'
-export default async function Dashboard() {
+import { PATH_NAMES } from 'helpers/paths'
+
+export default async function Dashboard({ searchParams }) {
   const client = await clientPromise
   const collection = client.db('tinyurl').collection('urls')
-  const urls = await collection.find().toArray()
+  let urls = await collection.find().toArray()
+
+  if (searchParams.delete) {
+    const filtered = urls.filter((e) => e.shortUrl !== searchParams.delete)
+    if (filtered.length !== urls.length) {
+      await collection.deleteOne({ shortUrl: searchParams.delete })
+    }
+    urls = filtered
+  }
 
   return (
     <div className="mt-4 mx-auto overflow-x-auto w-screen max-w-screen-lg">
@@ -50,6 +63,11 @@ export default async function Dashboard() {
                 <td className="px-6 py-4 text-right flex flex-row gap-1">
                   <Link href={`/${e.shortUrl}`}>
                     <ArrowTopRightOnSquareIcon className="w-6 h-6 cursor-pointer" />
+                  </Link>
+                  <Link
+                    href={`${PATH_NAMES.DASHBOARD.path}?delete=${e.shortUrl}`}
+                  >
+                    <TrashIcon className="w-6 h-6 cursor-pointer" />
                   </Link>
                 </td>
               </tr>
