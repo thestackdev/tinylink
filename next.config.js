@@ -10,6 +10,10 @@ const nextConfig = {
         source: '/api/auth/:path*',
         destination: `${process.env.NEXTAUTH_URL}/api/auth/:path*`,
       },
+      {
+        source: '/login/:path*',
+        destination: `${process.env.NEXTAUTH_URL}/login/:path*`,
+      },
     ]
   },
   eslint: {

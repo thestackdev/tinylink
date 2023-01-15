@@ -13,7 +13,6 @@ export default async function Dashboard({ searchParams }) {
 
   const client = await clientPromise
   const collection = client.db('tinyurl').collection('urls')
-
   let urls = await collection.find({ createdBy: session.user.email }).toArray()
 
   if (searchParams.delete) {

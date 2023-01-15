@@ -1,13 +1,10 @@
 import { withAuth } from 'next-auth/middleware'
-import { getToken } from 'next-auth/jwt'
 import { LOGIN_AUTH_ROUTE } from 'utils/constants'
-
-const secret = process.env.NEXTAUTH_SECRET
 
 export default withAuth({
   callbacks: {
-    authorized: async ({ req }) => {
-      const token = await getToken({ req, secret })
+    authorized: async ({ req, token }) => {
+      console.log(token)
       if (!token) return false
       return true
     },
