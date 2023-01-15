@@ -19,8 +19,4 @@ export const PATH_NAMES = {
     path: '/auth/signin',
     name: 'Login',
   },
-  UNLOCK: {
-    path: '/unlock',
-    name: 'Unlock',
-  },
 }

@@ -6,11 +6,15 @@ import {
 import clientPromise from 'lib/mongodb'
 import Link from 'next/link'
 import { PATH_NAMES } from 'helpers/paths'
+import { unstable_getServerSession } from 'next-auth/next'
 
 export default async function Dashboard({ searchParams }) {
+  const session = await unstable_getServerSession()
+
   const client = await clientPromise
   const collection = client.db('tinyurl').collection('urls')
-  let urls = await collection.find().toArray()
+
+  let urls = await collection.find({ createdBy: session.user.email }).toArray()
 
   if (searchParams.delete) {
     const filtered = urls.filter((e) => e.shortUrl !== searchParams.delete)

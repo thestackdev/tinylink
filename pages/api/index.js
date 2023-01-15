@@ -2,10 +2,18 @@ import clientPromise from 'lib/mongodb'
 import UrlSchema from 'schema/url'
 import crypto from 'crypto'
 import { generateExpiryDate } from 'helpers/expireAt'
+import { getToken } from 'next-auth/jwt'
 
 export default async function (req, res) {
   const client = await clientPromise
   const collection = client.db('tinyurl').collection('urls')
+
+  const token = await getToken({ req })
+
+  if (!token) {
+    return res.status(401).send('Request not authorized')
+  }
+
   try {
     switch (req.method) {
       case 'POST':
@@ -17,6 +25,7 @@ export default async function (req, res) {
           clicks: 0,
           createdAt: new Date(),
           expireAt: generateExpiryDate(value.expireAt, value.oneTimeUse),
+          createdBy: token.email,
         }
 
         const doc = await collection.insertOne(urlObject)

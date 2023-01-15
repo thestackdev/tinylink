@@ -21,6 +21,7 @@ const UrlSchema = joi.object({
     .required()
     .valid(...Object.keys(expireAtOptions)),
   oneTimeUse: joi.boolean().required(),
+  createdBy: joi.string().email().required().message('Email validation failed'),
 })
 
 export default UrlSchema
