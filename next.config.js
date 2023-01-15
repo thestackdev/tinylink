@@ -10,9 +10,14 @@ const nextConfig = {
         source: '/api/auth/:path*',
         destination: `${process.env.NEXTAUTH_URL}/api/auth/:path*`,
       },
+    ]
+  },
+  async redirects() {
+    return [
       {
-        source: '/login/:path*',
-        destination: `${process.env.NEXTAUTH_URL}/login/:path*`,
+        source: '/login',
+        destination: `${process.env.NEXTAUTH_URL}/login`,
+        permanent: true,
       },
     ]
   },

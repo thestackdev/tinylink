@@ -1,30 +1,35 @@
 'use client'
 
-import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LinkIcon, Bars3Icon } from '@heroicons/react/24/outline'
 import { PATH_NAMES } from 'helpers/paths'
 import { useSession, signOut } from 'next-auth/react'
-import { LOGIN_AUTH_ROUTE } from 'utils/constants'
+import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const [toggleOpened, setToggleOpened] = useState(false)
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === 'loading') return
+    if (!session) router.push('/login')
+  }, [session, status])
 
   function handleSession() {
     if (session) signOut()
-    else window.open(LOGIN_AUTH_ROUTE, '_self')
+    else window.open('/dashboard', '_self')
   }
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <Link href="/" className="flex items-center">
+        <a href="/" className="flex items-center">
           <LinkIcon className="w-6 h-6 stroke-black dark:stroke-white mr-2" />
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
             Tiny Link
           </span>
-        </Link>
+        </a>
         <button
           type="button"
           onClick={() => setToggleOpened((e) => !e)}
