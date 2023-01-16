@@ -3,10 +3,11 @@ import UrlSchema from 'schema/url'
 import crypto from 'crypto'
 import { generateExpiryDate } from 'helpers/expireAt'
 import { getToken } from 'next-auth/jwt'
+import { ObjectId } from 'mongodb'
 
 export default async function (req, res) {
   const client = await clientPromise
-  const collection = client.db('tinyurl').collection('urls')
+  const urlCollection = client.db('tinyurl').collection('urls')
 
   const token = await getToken({ req })
 
@@ -16,6 +17,13 @@ export default async function (req, res) {
 
   try {
     switch (req.method) {
+      case 'GET':
+        const urls = await urlCollection
+          .find({ createdBy: ObjectId('63c2cd98a8fedcdfcdcef111') })
+          .toArray()
+        res.status(200).send(urls)
+        break
+
       case 'POST':
         const value = await UrlSchema.validateAsync(req.body)
 
@@ -25,10 +33,10 @@ export default async function (req, res) {
           clicks: 0,
           createdAt: new Date(),
           expireAt: generateExpiryDate(value.expireAt, value.oneTimeUse),
-          createdBy: token.email,
+          createdBy: ObjectId(token.sub),
         }
 
-        const doc = await collection.insertOne(urlObject)
+        const doc = await urlCollection.insertOne(urlObject)
 
         res.status(201).send({ _id: doc.insertedId, ...urlObject })
         break
