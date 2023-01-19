@@ -4,6 +4,10 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  env: {
+    BASE_URL: process.env.BASE_URL,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+  },
   async rewrites() {
     return [
       {
