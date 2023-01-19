@@ -1,18 +1,17 @@
-import moment from 'moment'
 import {
   ArrowTopRightOnSquareIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline'
-import clientPromise from 'lib/mongodb'
-import Link from 'next/link'
 import { PATH_NAMES } from 'helpers/paths'
-import { unstable_getServerSession } from 'next-auth/next'
+import clientPromise from 'lib/mongodb'
+import moment from 'moment'
+import Link from 'next/link'
 
 export default async function Dashboard({ searchParams }) {
   const client = await clientPromise
   const collection = client.db('tinyurl').collection('urls')
 
-  const response = await fetch('http://localhost:3001/api', {
+  const response = await fetch(`${process.env.BASE_URL}/api`, {
     cache: 'no-store',
   })
   let urls = await response.json()

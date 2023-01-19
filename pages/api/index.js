@@ -1,9 +1,9 @@
-import clientPromise from 'lib/mongodb'
-import UrlSchema from 'schema/url'
 import crypto from 'crypto'
 import { generateExpiryDate } from 'helpers/expireAt'
-import { getToken } from 'next-auth/jwt'
+import clientPromise from 'lib/mongodb'
 import { ObjectId } from 'mongodb'
+import { getToken } from 'next-auth/jwt'
+import UrlSchema from 'schema/url'
 
 export default async function (req, res) {
   const client = await clientPromise
@@ -11,9 +11,9 @@ export default async function (req, res) {
 
   const token = await getToken({ req })
 
-  if (!token) {
-    return res.status(401).send('Request not authorized')
-  }
+  // if (!token) {
+  //   return res.status(401).send('Request not authorized')
+  // }
 
   try {
     switch (req.method) {
