@@ -7,7 +7,7 @@ import UrlSchema from 'schema/url'
 
 export default async function (req, res) {
   const client = await clientPromise
-  const urlCollection = client.db('tinyurl').collection('urls')
+  const collection = client.db('tinyurl').collection('urls')
 
   const token = await getToken({ req })
 
@@ -18,12 +18,12 @@ export default async function (req, res) {
   try {
     switch (req.method) {
       case 'GET':
-        const urls = await urlCollection
-          .find({ createdBy: ObjectId('63c2cd98a8fedcdfcdcef111') })
+        const urls = await collection
+          .find({ createdBy: new ObjectId('63c2cd98a8fedcdfcdcef111') })
           .toArray()
         res.status(200).send(urls)
-        break
 
+        break
       case 'POST':
         const value = await UrlSchema.validateAsync(req.body)
 
@@ -36,9 +36,14 @@ export default async function (req, res) {
           createdBy: ObjectId(token.sub),
         }
 
-        const doc = await urlCollection.insertOne(urlObject)
+        const doc = await collection.insertOne(urlObject)
 
         res.status(201).send({ _id: doc.insertedId, ...urlObject })
+        break
+
+      case 'DELETE':
+        await collection.deleteOne({ _id: req.query?.id })
+        res.status(200).send('Ok')
         break
     }
   } catch (error) {

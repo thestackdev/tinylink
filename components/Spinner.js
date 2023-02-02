@@ -1,4 +1,4 @@
-export default function Loading() {
+export default function Spinner() {
   return (
     <div className="w-full flex items-center justify-center mt-8" role="status">
       <svg

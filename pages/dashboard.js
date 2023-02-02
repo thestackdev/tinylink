@@ -2,30 +2,28 @@ import {
   ArrowTopRightOnSquareIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline'
+import Form from 'components/Form'
 import { PATH_NAMES } from 'helpers/paths'
-import clientPromise from 'lib/mongodb'
 import moment from 'moment'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-export default async function Dashboard({ searchParams }) {
-  const client = await clientPromise
-  const collection = client.db('tinyurl').collection('urls')
+export default function Dashboard() {
+  const [urls, setUrls] = useState([])
 
-  const response = await fetch(`${process.env.BASE_URL}/api`, {
-    cache: 'no-store',
-  })
-  let urls = await response.json()
+  useEffect(() => {
+    fetchUrls()
+  }, [])
 
-  if (searchParams.delete) {
-    const filtered = urls.filter((e) => e.shortUrl !== searchParams.delete)
-    if (filtered.length !== urls.length) {
-      await collection.deleteOne({ shortUrl: searchParams.delete })
-    }
-    urls = filtered
+  async function fetchUrls() {
+    const res = await fetch('/api')
+    const data = await res.json()
+    setUrls(data)
   }
 
   return (
-    <div className="mt-4 mx-auto overflow-x-auto w-screen max-w-screen-lg">
+    <div className="mt-4 mx-auto overflow-x-auto w-screen max-w-lg">
+      <Form />
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

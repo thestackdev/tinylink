@@ -1,24 +1,22 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import { LinkIcon, Bars3Icon } from '@heroicons/react/24/outline'
+import { Bars3Icon, LinkIcon } from '@heroicons/react/24/outline'
 import { PATH_NAMES } from 'helpers/paths'
-import { useSession, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export default function Navbar() {
   const [toggleOpened, setToggleOpened] = useState(false)
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  useEffect(() => {
-    if (status === 'loading') return
-    if (!session) router.push('/login')
-  }, [session, status])
+  // useEffect(() => {
+  //   if (status === 'loading') return
+  //   if (!session) router.push('/login')
+  // }, [session, status])
 
   function handleSession() {
-    if (session) signOut()
-    else window.open('/dashboard', '_self')
+    // if (session) signOut()
+    // else window.open('/dashboard', '_self')
   }
 
   return (
