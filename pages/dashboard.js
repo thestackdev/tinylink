@@ -25,7 +25,7 @@ export default function Dashboard() {
     <div className="mt-4 overflow-x-auto w-full">
       <Form />
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="mx-auto text-sm text-left text-gray-500 dark:text-gray-400">
+        <table className="mx-auto w-full max-w-[1000px] text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -63,7 +63,7 @@ export default function Dashboard() {
                         .humanize()}
                 </td>
                 <td className="px-6 py-4 text-right flex flex-row gap-1">
-                  <Link href={`/${e.shortUrl}`}>
+                  <Link href={`/api/${e.shortUrl}`} target="_blank">
                     <ArrowTopRightOnSquareIcon className="w-6 h-6 cursor-pointer" />
                   </Link>
                   <Link

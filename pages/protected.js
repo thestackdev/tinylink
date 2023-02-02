@@ -1,15 +1,18 @@
+import { useRouter } from 'next/router'
+
 export default function Protected() {
-  const handleSubmission = (e) => {
-    e.preventDefault()
-  }
+  const router = useRouter()
+  const { shortUrl, error } = router.query
 
   return (
     <form
       className="flex flex-col gap-4 justify-center w-full max-w-lg mx-auto mt-8"
-      onSubmit={handleSubmission}
+      action={`/api/${shortUrl}`}
     >
       <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
-        This link is password protected
+        {error === 'noPassword'
+          ? 'This link is password protected'
+          : 'Please enter the correct password'}
       </h1>
       <div className="w-full">
         <label
