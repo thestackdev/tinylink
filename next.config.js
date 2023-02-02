@@ -2,7 +2,6 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
   env: {
-    BASE_URL: process.env.BASE_URL,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   },
   async rewrites() {
