@@ -1,6 +1,6 @@
 import { Bars3Icon, LinkIcon } from '@heroicons/react/24/outline'
 import { PATH_NAMES } from 'helpers/paths'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -10,8 +10,8 @@ export default function Navbar() {
   const router = useRouter()
 
   function handleSession() {
-    // if (session) signOut()
-    // else window.open('/dashboard', '_self')
+    if (session) signOut()
+    else router.push('/login')
   }
 
   return (

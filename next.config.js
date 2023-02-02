@@ -16,7 +16,7 @@ const nextConfig = {
     return [
       {
         source: '/login',
-        destination: `${process.env.NEXTAUTH_URL}/login`,
+        destination: `${process.env.NEXTAUTH_URL}/login?callbackUrl=${process.env.BASE_URL}/dashboard`,
         permanent: true,
       },
     ]
