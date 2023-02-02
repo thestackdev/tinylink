@@ -1,17 +1,37 @@
 import { Inter } from '@next/font/google'
 import Navbar from 'components/Navbar'
-import Providers from 'components/Providers'
+import NoAccess from 'components/NoAccess'
+import Spinner from 'components/Spinner'
+import { SessionProvider, useSession } from 'next-auth/react'
 import 'styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function App({ Component, pageProps }) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   return (
     <main className={inter.className}>
-      <Providers>
+      <SessionProvider session={session}>
         <Navbar />
-        <Component {...pageProps} />
-      </Providers>
+        {Component.auth ? (
+          <Auth>
+            <Component {...pageProps} />
+          </Auth>
+        ) : (
+          <Component {...pageProps} />
+        )}
+      </SessionProvider>
     </main>
   )
+}
+
+function Auth({ children }) {
+  const { data: session, status } = useSession({ required: true })
+
+  if (status === 'loading') return <Spinner />
+
+  if (!session) return <NoAccess />
+  return children
 }

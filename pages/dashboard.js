@@ -22,10 +22,10 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="mt-4 mx-auto overflow-x-auto w-screen max-w-lg">
+    <div className="mt-4 overflow-x-auto w-full">
       <Form />
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <table className="mx-auto text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -80,3 +80,5 @@ export default function Dashboard() {
     </div>
   )
 }
+
+Dashboard.auth = true

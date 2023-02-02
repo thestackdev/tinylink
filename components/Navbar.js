@@ -6,13 +6,8 @@ import { useState } from 'react'
 
 export default function Navbar() {
   const [toggleOpened, setToggleOpened] = useState(false)
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const router = useRouter()
-
-  // useEffect(() => {
-  //   if (status === 'loading') return
-  //   if (!session) router.push('/login')
-  // }, [session, status])
 
   function handleSession() {
     // if (session) signOut()

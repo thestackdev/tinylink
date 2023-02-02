@@ -1,9 +1,7 @@
-'use client'
-
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { expireAtOptions } from 'helpers/expireAt'
-import { useEffect, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState, useTransition } from 'react'
 
 export default function Button() {
   const [modalOpen, setModalOpen] = useState(false)

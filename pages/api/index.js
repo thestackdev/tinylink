@@ -11,15 +11,15 @@ export default async function (req, res) {
 
   const token = await getToken({ req })
 
-  // if (!token) {
-  //   return res.status(401).send('Request not authorized')
-  // }
+  if (!token) {
+    return res.status(401).send('Request not authorized')
+  }
 
   try {
     switch (req.method) {
       case 'GET':
         const urls = await collection
-          .find({ createdBy: new ObjectId('63c2cd98a8fedcdfcdcef111') })
+          .find({ createdBy: new ObjectId(token.sub) })
           .toArray()
         res.status(200).send(urls)
 
@@ -33,7 +33,7 @@ export default async function (req, res) {
           clicks: 0,
           createdAt: new Date(),
           expireAt: generateExpiryDate(value.expireAt, value.oneTimeUse),
-          createdBy: ObjectId(token.sub),
+          createdBy: new ObjectId(token.sub),
         }
 
         const doc = await collection.insertOne(urlObject)
