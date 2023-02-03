@@ -3,10 +3,6 @@ export const PATH_NAMES = {
     path: '/',
     name: 'home',
   },
-  DASHBOARD: {
-    path: '/dashboard',
-    name: 'Dashboard',
-  },
   ABOUT: {
     path: '/about',
     name: 'About',

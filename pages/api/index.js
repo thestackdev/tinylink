@@ -20,10 +20,21 @@ export default async function (req, res) {
       case 'GET':
         const urls = await collection
           .find({ createdBy: new ObjectId(token.sub) })
+          .limit(50)
           .toArray()
-        res.status(200).send(urls)
+          .then((e) => {
+            return e.map((e) => ({
+              _id: e._id,
+              source: e.source,
+              expireAt: e.expireAt,
+              shortUrl: e.shortUrl,
+              clicks: e.clicks,
+            }))
+          })
 
+        res.status(200).send(urls)
         break
+
       case 'POST':
         const value = await UrlSchema.validateAsync(req.body)
 
@@ -38,12 +49,15 @@ export default async function (req, res) {
 
         const doc = await collection.insertOne(urlObject)
 
-        res.status(201).send({ _id: doc.insertedId, ...urlObject })
-        break
-
-      case 'DELETE':
-        await collection.deleteOne({ _id: req.query?.id })
-        res.status(200).send('Ok')
+        res.status(201).send({
+          _id: doc.insertedId,
+          ...{
+            source: urlObject.source,
+            expireAt: urlObject.expireAt,
+            shortUrl: urlObject.shortUrl,
+            clicks: urlObject.clicks,
+          },
+        })
         break
     }
   } catch (error) {

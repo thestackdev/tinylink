@@ -3,6 +3,7 @@ const nextConfig = {
   output: 'standalone',
   env: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    BASE_URL: process.env.BASE_URL,
   },
   async rewrites() {
     return [
@@ -16,7 +17,7 @@ const nextConfig = {
     return [
       {
         source: '/login',
-        destination: `${process.env.NEXTAUTH_URL}/login?callbackUrl=${process.env.BASE_URL}/dashboard`,
+        destination: `${process.env.NEXTAUTH_URL}/login?callbackUrl=${process.env.BASE_URL}`,
         permanent: true,
       },
     ]

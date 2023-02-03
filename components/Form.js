@@ -1,14 +1,11 @@
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { expireAtOptions } from 'helpers/expireAt'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function Button() {
+export default function Button({ setUrls }) {
   const [modalOpen, setModalOpen] = useState(false)
   const [form, setForm] = useState(() => resetForm())
   const [submittion, setSubmittion] = useState(false)
-  const [isPending, startTransition] = useTransition()
-  const router = useRouter()
 
   useEffect(() => {
     setForm(resetForm())
@@ -38,17 +35,18 @@ export default function Button() {
       },
       body: JSON.stringify(form),
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (res.status === 201) {
+          const response = await res.json()
+          setUrls((e) => [...e, response])
+        }
+      })
       .catch((e) => {
         console.log(e)
       })
 
     setModalOpen(false)
     setSubmittion(false)
-
-    startTransition(() => {
-      router.refresh()
-    })
   }
 
   return (
