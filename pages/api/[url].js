@@ -34,6 +34,7 @@ export default async function (req, res) {
         }
 
         res.redirect(url.source)
+        break
 
       case 'DELETE':
         await collection.deleteOne({ shortUrl: req.query.url })
